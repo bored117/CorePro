@@ -10,11 +10,11 @@ class TestBase(unittest.TestCase):
     timestamp = str(datetime.datetime.now())
     loggingObject = None
 
-    prepaidConn = Connection.createFromConfig()
-    prepaidCustomerId = None
-    prepaidAccountId = None
-    prepaidExternalAccountId = None
-    prepaidCustomerBeneficiaryId = None
+    Conn = Connection.createFromConfig()
+    CustomerId = None
+    AccountId = None
+    ExternalAccountId = None
+    CustomerBeneficiaryId = None
 
     bankDocumentId = None
 

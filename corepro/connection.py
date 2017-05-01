@@ -38,8 +38,8 @@ class Connection(object):
         self.apiSecret = Connection.defaultApiSecret
         self.domainName = Connection.defaultDomainName
         self._headerValue = None
-        self.proxyServer = Connection.defaultProxyServer
-        self.proxyPort = Connection.defaultProxyPort
+        #self.proxyServer = Connection.defaultProxyServer
+        #self.proxyPort = Connection.defaultProxyPort
 
     @property
     def headerValue(self):

@@ -35,7 +35,7 @@ class TestAaCustomerPrepaid(TestBase):
         self.assertTrue(c.customerId == TestBase.prepaidCustomerId)
 
     def test_list(self):
-        cs = Customer.listItems(0, 200, TestBase.prepaidConn, TestBase.loggingObject)
+        cs = Customer.list(0, 200, TestBase.prepaidConn, TestBase.loggingObject)
 
     def test_search(self):
         c = Customer()

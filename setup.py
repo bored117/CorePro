@@ -19,7 +19,8 @@ def read(*filenames, **kwargs):
             buf.append(f.read())
     return sep.join(buf)
 
-long_description = read('README.txt', 'CHANGES.txt')
+#long_description = read('README.txt', 'CHANGES.txt')
+long_description = read('README.md')
 
 class PyTest(TestCommand):
     def finalize_options(self):
@@ -34,7 +35,8 @@ class PyTest(TestCommand):
 
 setup(
     name='corepro',
-    version=corepro.__version__,
+    #version=corepro.__version__,
+    version='1',
     url='http://github.com/socialmoney/corepro-sdk-python/',
     license='MIT License',
     author='SocialMoneyDev',

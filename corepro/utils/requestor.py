@@ -4,9 +4,10 @@ from ..models.envelope import Envelope
 from ..coreproapiexception import CoreProApiException
 import httplib
 import urllib
+import requests
 
 class Requestor(object):
-
+    #Jin - might want to change this below as it will be new API.
     SDK_USER_AGENT = "CorePro Python SDK v {0}".format("0.0.1")
 
     @staticmethod
@@ -32,7 +33,10 @@ class Requestor(object):
                   'Host': connection.domainName}
 
         requestBody = toPost.toJson()
-
+        print headers
+        print relativeUrl
+        print httpConn.host
+        print requestBody
         httpConn.request("POST", relativeUrl, requestBody, headers)
         resp = httpConn.getresponse()
         status = resp.status
@@ -42,22 +46,12 @@ class Requestor(object):
     def get(self, relativeUrl, classDef, connection, loggingObject):
         connection = connection or Connection.createFromConfig()
         if connection.proxyPort is not None and connection.proxyServer is not None:
-            httpConn = httplib.HTTPSConnection(connection.proxyServer, int(connection.proxyPort))
-            httpConn.set_tunnel(connection.domainName, 443)
             relativeUrl = 'https://' + connection.domainName + relativeUrl
-        else:
-            httpConn = httplib.HTTPSConnection(connection.domainName, 443)
 
-        headers = {'User-Agent': Requestor.SDK_USER_AGENT,
-                  'Content-Type': 'application/json; charset=utf-8',
-                  'Accept': 'application/json; charset=utf-8',
-                  'Authorization': connection.headerValue,
-                  'Host': connection.domainName}
-
-        httpConn.request("GET", relativeUrl, None, headers)
-        resp = httpConn.getresponse()
-        status = resp.status
-        body = resp.read()
+        resp = requests.get(relativeUrl, auth=(connection.apiKey, connection.apiSecret))
+        print resp.json()
+        status = resp.status_code
+        body = resp.text
         return self.parseResponse(status, None, body, classDef)
 
     def parseResponse(self, status, requestBody, responseBody, classDef):
