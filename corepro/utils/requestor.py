@@ -46,12 +46,16 @@ class Requestor(object):
     def get(self, relativeUrl, classDef, connection, loggingObject):
         connection = connection or Connection.createFromConfig()
         if connection.proxyPort is not None and connection.proxyServer is not None:
+            httpConn = httplib.HTTPSConnection(connection.proxyServer, int(connection.proxyPort))
+            httpConn.set_tunnel(connection.domainName, 443)
             relativeUrl = 'https://' + connection.domainName + relativeUrl
+        else:
+            httpConn = httplib.HTTPSConnection(connection.domainName, 443)
 
         resp = requests.get(relativeUrl, auth=(connection.apiKey, connection.apiSecret))
-        print resp.json()
+        #print resp.json()
         status = resp.status_code
-        body = resp.text
+        body = resp.json()
         return self.parseResponse(status, None, body, classDef)
 
     def parseResponse(self, status, requestBody, responseBody, classDef):

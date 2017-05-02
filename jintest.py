@@ -1,5 +1,6 @@
 from jinbase import TestBase
 from corepro.customer import Customer
+import httplib
 import requests
 from corepro.models.envelope import Envelope
 from corepro.models.envelope import Envelope
@@ -12,12 +13,27 @@ from corepro.coreproapiexception import CoreProApiException
 #print r.text
 #print r.json()
 
+SDK_USER_AGENT = "CorePro Python SDK v {0}".format("1.0.0")
+httpConn = httplib.HTTPSConnection(TestBase.Conn.domainName, 433)
+print TestBase.Conn.headerValue
+print TestBase.Conn.domainName
+headers = {'User-Agent':SDK_USER_AGENT,
+           'Content_type':'application/json; charset=utf-8',
+           'Accept':'application/json; charset=utf-8',
+           'Authorization': TestBase.Conn.headerValue,
+           'Host': TestBase.Conn.domainName}
+print headers
+httpConn.request("GET","https://sandbox-api.corepro.io.customer/list", None, headers)
+resp = httpConn.getresponse()
+print resp
+
+
 #print TestBase.Conn.apiKey,
 #print TestBase.Conn.apiSecret,
 #print TestBase.Conn.domainName
-c = Customer()
-Customer.list(c, connection=TestBase.Conn)
-print c.customerCount
+#c = Customer()
+#Customer.list(c, connection=TestBase.Conn)
+#print c.customerCount
 
 #print cs
 #ts = Customer.list(connection=TestBase.Conn)

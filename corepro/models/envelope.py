@@ -15,7 +15,6 @@ class Envelope(JsonBase):
         classDefs = classDefs or dict()
         classDefs['errors'] = ApiError
         super(Envelope, self).fromJson(jsonData, classDefs)
-
         if self.data is not None:
             if isinstance(self.data, list):
                 for v in self.data:
